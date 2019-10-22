@@ -55,7 +55,7 @@ id, group_name
 * MySql 5.x installed locally, accessible via 127.0.0.1
 
 - Clone the repository
-  - `git clone && cd into`
+  - `git clone && cd into crud-react-laravel`
 - Setup Laravel
   - `cp .env.example .env`
   - Edit .env with your mysql connection information: the following steps connect to local mysql database using root credentials
