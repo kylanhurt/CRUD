@@ -8,14 +8,14 @@ We’re super excited to see what you come up with!
 
 We expect it to take a few hours. We would ask that you make commits to a git repository every so often so that we can see how long it took. Here is what you need to do
 
-1. Clone this repository locally and update the first line of this README with your name (so that it reads "Hello, YOUR NAME!"). Commit this change. This will serve as a starting timestamp
+
 2. Complete the exercise below
 3. Commit progress regularly
 4. When you're done, upload your code to a personal GitHub account and email us the link.
 
 ## The Exercise
 
-This is a simplified version of a piece of functionality we have in Breeze ChMS. Many of the churches we work with import their data from an existing system or a homegrown spreadsheet into Breeze. We provide tools for bulk importing of people, contribution, group and attendance records.
+Many of the churches we work with import their data from an existing system or a homegrown spreadsheet. We provide tools for bulk importing of people, contribution, group and attendance records.
 In this problem we're only going to consider two data types: People and Groups. A Person can be part of one Group.
 
 For the People data type, each person can have a state of either 'active' or ‘archived’. The `id` for each data type is globally unique. As a result, if the id does not exist, create a new record, otherwise, update the existing record.
@@ -80,8 +80,4 @@ You will need to determine the type of data in the CSV file based on the headers
 
 We love TDD! So we’d love to see tests for the API and ReactJS application. Write automated tests to verify your results and account for gotchas (handling different column orders, invalid id's in the People CSV file, etc..). Classify your tests as either unit, integration, ui, or acceptance, but it is not required to use every type.
 
-## Finally
 
-We’re a fully remote team so communication is really important. Be sure to include any instructions needed for any of our team mates to run and test.
-
-Good luck and we'll get back to you once we review it!
