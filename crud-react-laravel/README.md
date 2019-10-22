@@ -53,7 +53,7 @@ id, group_name
 * MySql 5.x installed locally, accessible via 127.0.0.1
 
 - Clone the repository
-  - `git clone git@github.com:BreezeChMS/coding-exercise-api-react.git && cd coding-exercise-api-react`
+  - `git clone this repository && cd crud`
 - Setup Laravel
   - `cp .env.example .env`
   - Edit .env with your mysql connection information: the following steps connect to local mysql database using root credentials
