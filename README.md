@@ -7,7 +7,7 @@ We expect it to take a few hours. We would ask that you make commits to a git re
 3. Commit progress regularly
 4. When you're done, upload your code to a personal GitHub account and email us the link.
 
-## The Exercise
+## The TASK
 
 Many of the churches we work with import their data from an existing system or a homegrown spreadsheet. We provide tools for bulk importing of people, contribution, group and attendance records.
 In this problem we're only going to consider two data types: People and Groups. A Person can be part of one Group.
