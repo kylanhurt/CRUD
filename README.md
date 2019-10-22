@@ -1,15 +1,9 @@
-# Coding Exercise
-
-Hello, _______________!
-
-Below is a coding exercise that we believe will allow you to show off your amazing development skills!
-
 We’re super excited to see what you come up with!
 
 We expect it to take a few hours. We would ask that you make commits to a git repository every so often so that we can see how long it took. Here is what you need to do
 
 
-2. Complete the exercise below
+2. Complete the requirements below
 3. Commit progress regularly
 4. When you're done, upload your code to a personal GitHub account and email us the link.
 
