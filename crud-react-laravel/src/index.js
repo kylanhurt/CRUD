@@ -6,7 +6,7 @@ import ResultsList from "./ResultsList";
 
 const App = ({ children }) => (
   <Container style={{ margin: 20 }}>
-    <Header as="h3"><span role="img" aria-label="logo">⛵️</span> Breeze Church Management </Header>
+    <Header as="h3"><span role="img" aria-label="logo">⛵️</span> Church </Header>
 
     {children}
   </Container>
