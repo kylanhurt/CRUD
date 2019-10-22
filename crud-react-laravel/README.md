@@ -1,8 +1,6 @@
-# Coding Exercise
 
-Hello, _______________!
 
-Below is a coding exercise that we believe will allow you to show off your amazing development skills!
+
 
 We’re super excited to see what you come up with!
 
@@ -15,7 +13,7 @@ We expect it to take a few hours. We would ask that you make commits to a git re
 
 ## The Exercise
 
-This is a simplified version of a piece of functionality we have in Breeze ChMS. Many of the churches we work with import their data from an existing system or a homegrown spreadsheet into Breeze. We provide tools for bulk importing of people, contribution, group and attendance records.
+This is a simplified version of a piece of functionality we have in. Many of the churches we work with import their data from an existing system or a homegrown spreadsheet into . We provide tools for bulk importing of people, contribution, group and attendance records.
 In this problem we're only going to consider two data types: People and Groups. A Person can be part of one Group.
 
 For the People data type, each person can have a state of either 'active' or ‘archived’. The `id` for each data type is globally unique. As a result, if the id does not exist, create a new record, otherwise, update the existing record.
@@ -30,11 +28,11 @@ Here’s an example:
 
 ```
 id, first_name, last_name, email_address, status
-1, "Alex", "Ortiz-Rosado", "alex@breezechms.com", active
-2, "Jon", "VerLee", "jon@breezechms.com", "archived"
-3, "Fred", "Flintstone", "fredflintstone@example.com", "active"
-4, "Marie", "Bourne", "mbourne@example.com", "active"
-5, "Wilma", "Flintstone", "wilmaflinstone@example.com", "active"
+1, "Alex", "Ortiz-Rosado", "alex@gmail.com", active
+2, "Jon", "VerLee", "jon@gmail.com", "archived"
+3, "Fred", "Flintstone", "fredflintstone@gmail.com", "active"
+4, "Marie", "Bourne", "mbourne@gmail.com", "active"
+5, "Wilma", "Flintstone", "wilmaflinstone@gmail.com", "active"
 ```
 
 ```
