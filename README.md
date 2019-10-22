@@ -30,11 +30,11 @@ Here’s an example:
 
 ```
 id, first_name, last_name, email_address, status
-1, "Alex", "Ortiz-Rosado", "alex@breezechms.com", active
-2, "Jon", "VerLee", "jon@breezechms.com", "archived"
-3, "Fred", "Flintstone", "fredflintstone@example.com", "active"
-4, "Marie", "Bourne", "mbourne@example.com", "active"
-5, "Wilma", "Flintstone", "wilmaflinstone@example.com", "active"
+1, "Alex", "Ortiz-Rosado", "alex@gmail.com", active
+2, "Jon", "VerLee", "jon@gmail.com", "archived"
+3, "Fred", "Flintstone", "fredflintstone@gmail.com", "active"
+4, "Marie", "Bourne", "mbourne@gmail.com", "active"
+5, "Wilma", "Flintstone", "wilmaflinstone@gmail.com", "active"
 ```
 
 ```
