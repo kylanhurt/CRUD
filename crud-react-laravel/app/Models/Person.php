@@ -12,4 +12,9 @@ class Person extends Model
         'email_address',
         'status'
     ];
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }

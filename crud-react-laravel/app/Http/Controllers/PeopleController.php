@@ -47,6 +47,8 @@ class PeopleController extends Controller
             // PHP_EOL may not actually be usable due to operating system differences
             $lines = explode(PHP_EOL, $fileData);
             array_shift($lines);
+            $updated = 0;
+            $inserted = 0;
             foreach ($lines as $line) {
                 $lineData = str_getcsv($line);
                 $primaryId = $lineData[0];
@@ -59,6 +61,7 @@ class PeopleController extends Controller
                             'email_address' => $lineData[3],
                             'status' => $lineData[4]
                         ]);
+                    $updated++;
                 } else { // new data = insert
                     Person::insert([
                         'first_name' => $lineData[1],
@@ -66,9 +69,15 @@ class PeopleController extends Controller
                         'email_address' => $lineData[3],
                         'status' => $lineData[4]
                     ]);
+                    $inserted++;
                 }
             }
-            return new PeopleCollection(Person::all());
+            $affected = $updated + $inserted;
+
+            return array(
+                    "feedback" => $affected . " rows affected, " . $inserted . " inserted and " . $updated . " updated."
+                    , "collection" => new PeopleCollection(Person::all())
+                );
         } catch (Exception $e) {
             return response()->json(null, 422);
         }

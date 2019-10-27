@@ -8,7 +8,14 @@ class ResultsList extends Component {
         super(props);
         this.state = {
             data: [],
-            uploadError: null
+            peopleUploadFeedback: {
+                message: '',
+                type: ''
+            },
+            groupsUploadFeedback: {
+                message: '',
+                type: ''
+            }
         };
     }
 
@@ -18,7 +25,7 @@ class ResultsList extends Component {
           .then(data => this.setState({ data: data.data }));
     }
 
-    onFileSelected = async (event) => {
+    onPeopleFileSelected = async (event) => {
         // console.log(event.target.files[0])
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -29,18 +36,44 @@ class ResultsList extends Component {
         if (uploadPeopleResponse.ok) {
             const responseData = await uploadPeopleResponse.json()
             this.setState({
-                data: responseData.data
+                data: responseData.collection.data,
+                peopleUploadFeedback: {
+                    message: responseData.feedback,
+                    type: 'success'
+                }
             })
         } else {
             this.setState({
-                uploadError: 'Something'
+                peopleUploadFeedback: 'Something'
+            })
+        }
+    }
+
+    onGroupFileSelected = async (event) => {
+        // console.log(event.target.files[0])
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const uploadGroupResponse = await fetch(API_URL + '/groups', {
+            method: 'POST',
+            body: formData
+        })
+        if (uploadGroupResponse.ok) {
+            const responseData = await uploadGroupResponse.json()
+            this.setState({
+                groupsUploadFeedback: {
+                    message: responseData.feedback,
+                    type: 'success'
+                }
+            })
+        } else {
+            this.setState({
+                groupsUploadFeedback: 'Something'
             })
         }
     }
 
     render() {
-        const { uploadError, data } = this.state
-        console.log('data is rendering: ', data)
+        const { peopleUploadFeedback, groupsUploadFeedback, data } = this.state
         return (
             <div>
                 <div>
@@ -48,12 +81,28 @@ class ResultsList extends Component {
                     <input type="file"
                         id="peopleCSVUpload" name="peopleCSVUpload"
                         accept="text/csv"
-                        onChange={this.onFileSelected}
+                        onChange={this.onPeopleFileSelected}
                     />
                 </div>
                 <br />
-                <div style={{ minHeight: 30 }}>
-                    <span style={{ fontColor: 'red' }}>{uploadError}</span>
+                <div style={{ minHeight: 40 }}>
+                    <span style={{ color: peopleUploadFeedback.type === 'success' ? 'green' : 'red' }}>
+                        {peopleUploadFeedback.message}
+                    </span>
+                </div>
+                <div>
+                    <label htmlFor="groupCSVUpload">Upload a group list:</label><br /><br />
+                    <input type="file"
+                        id="groupCSVUpload" name="groupCSVUpload"
+                        accept="text/csv"
+                        onChange={this.onGroupFileSelected}
+                    />
+                </div>
+                <br />
+                <div style={{ minHeight: 40 }}>
+                    <span style={{ color: groupsUploadFeedback.type === 'success' ? 'green' : 'red' }}>
+                        {groupsUploadFeedback.message}
+                    </span>
                 </div>
                 <Table celled padded>
                 <Table.Header>
