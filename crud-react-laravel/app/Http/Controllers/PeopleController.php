@@ -41,15 +41,15 @@ class PeopleController extends Controller
         if (!ini_get("auto_detect_line_endings")) {
             ini_set("auto_detect_line_endings", '1');
         }
-
-        $uploadedCSV = $request->getContent();
+        $content = $request->file('file');
         try {
             $insertionData = [];
-            $lines = explode(PHP_EOL, $uploadedCSV);
+            $fileData = file_get_contents($content);
+            // PHP_EOL may not actually be usable due to operating system differences
+            $lines = explode(PHP_EOL, $fileData);
             array_shift($lines);
             foreach ($lines as $line) {
                 $lineData = str_getcsv($line);
-                print_r($lineData);
                 $insertionData[] = [
                     'first_name' => $lineData[1],
                     'last_name' => $lineData[2],

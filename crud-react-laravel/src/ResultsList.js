@@ -6,7 +6,10 @@ const API_URL = 'http://127.0.0.1:8000/api'
 class ResultsList extends Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
+        this.state = {
+            data: [],
+            uploadError: null
+        };
     }
 
     componentDidMount() {
@@ -16,21 +19,28 @@ class ResultsList extends Component {
     }
 
     onFileSelected = async (event) => {
-        console.log(event.target.files[0])
-        const data = new FormData()
-        data.append('file', event.target.files[0])
-        fetch(API_URL + '/people', {
+        // console.log(event.target.files[0])
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const uploadPeopleResponse = await fetch(API_URL + '/people', {
             method: 'POST',
-            body: data,
-            headers: {
-                'content-type': 'text/csv'
-            }
+            body: formData
         })
+        if (uploadPeopleResponse.ok) {
+            const responseData = await uploadPeopleResponse.json()
+            this.setState({
+                data: responseData.data
+            })
+        } else {
+            this.setState({
+                uploadError: 'Something'
+            })
+        }
     }
 
     render() {
-        var data = this.state.data || [];
-
+        const { uploadError, data } = this.state
+        console.log('data is rendering: ', data)
         return (
             <div>
                 <div>
@@ -42,6 +52,9 @@ class ResultsList extends Component {
                     />
                 </div>
                 <br />
+                <div style={{ minHeight: 30 }}>
+                    <span style={{ fontColor: 'red' }}>{uploadError}</span>
+                </div>
                 <Table celled padded>
                 <Table.Header>
                     <Table.Row>
@@ -56,6 +69,7 @@ class ResultsList extends Component {
 
                 {
                     data.map((person, index) => {
+                        console.log('person is: ', person, ' and index is: ', index)
                         return (
                             <Table.Row key={index}>
                                 <Table.Cell singleLine>{ person.first_name }</Table.Cell>
@@ -64,7 +78,7 @@ class ResultsList extends Component {
                                 <Table.Cell singleLine>{ person.status }</Table.Cell>
                             </Table.Row>
                         );
-                        })
+                    })
                 }
 
                 </Table.Body>
