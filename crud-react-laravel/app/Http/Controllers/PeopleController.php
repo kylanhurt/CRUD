@@ -43,21 +43,31 @@ class PeopleController extends Controller
         }
         $content = $request->file('file');
         try {
-            $insertionData = [];
             $fileData = file_get_contents($content);
             // PHP_EOL may not actually be usable due to operating system differences
             $lines = explode(PHP_EOL, $fileData);
             array_shift($lines);
             foreach ($lines as $line) {
                 $lineData = str_getcsv($line);
-                $insertionData[] = [
-                    'first_name' => $lineData[1],
-                    'last_name' => $lineData[2],
-                    'email_address' => $lineData[3],
-                    'status' => $lineData[4]
-                ];
+                $primaryId = $lineData[0];
+                if (is_numeric($primaryId)) { // update since id present (existing record)
+                    DB::table('people')
+                        ->where('id', $primaryId)
+                        ->update([
+                            'first_name' => $lineData[1],
+                            'last_name' => $lineData[2],
+                            'email_address' => $lineData[3],
+                            'status' => $lineData[4]
+                        ]);
+                } else { // new data = insert
+                    Person::insert([
+                        'first_name' => $lineData[1],
+                        'last_name' => $lineData[2],
+                        'email_address' => $lineData[3],
+                        'status' => $lineData[4]
+                    ]);
+                }
             }
-            Person::insert($insertionData);
             return new PeopleCollection(Person::all());
         } catch (Exception $e) {
             return response()->json(null, 422);
