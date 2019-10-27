@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-
 use App\Http\Resources\PeopleCollection;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
@@ -39,18 +38,30 @@ class PeopleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name'    => 'required|max:255',
-            'last_name'     => 'required|max:255',
-            'email_address' => 'required|email',
-            'status'        => Rule::in(['active', 'archived'])
-        ]);
+        if (!ini_get("auto_detect_line_endings")) {
+            ini_set("auto_detect_line_endings", '1');
+        }
 
-        $person = Person::create($request->all());
-
-        return (new PersonResource($person))
-            ->response()
-            ->setStatusCode(201);
+        $uploadedCSV = $request->getContent();
+        try {
+            $insertionData = [];
+            $lines = explode(PHP_EOL, $uploadedCSV);
+            array_shift($lines);
+            foreach ($lines as $line) {
+                $lineData = str_getcsv($line);
+                print_r($lineData);
+                $insertionData[] = [
+                    'first_name' => $lineData[1],
+                    'last_name' => $lineData[2],
+                    'email_address' => $lineData[3],
+                    'status' => $lineData[4]
+                ];
+            }
+            Person::insert($insertionData);
+            return new PeopleCollection(Person::all());
+        } catch (Exception $e) {
+            return response()->json(null, 422);
+        }
     }
 
     /**
