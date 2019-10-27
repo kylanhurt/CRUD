@@ -61,10 +61,14 @@ class GroupController extends Controller
                         ]);
                     $updated++;
                 } else { // new data = insert
-                    Group::insert([
-                        'group_name' => $lineData[1]
-                    ]);
-                    $inserted++;
+                    $existingGroup = Group::find(['group_name' => $lineData[1]]);
+                    // only enter if unique name
+                    if ($existingGroup === null) {
+                        Group::insert([
+                            'group_name' => $lineData[1]
+                        ]);
+                        $inserted++;
+                    }
                 }
             }
             $affected = $updated + $inserted;
