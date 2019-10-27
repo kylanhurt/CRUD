@@ -13,9 +13,9 @@ class GroupTableSeeder extends Seeder
     {
         // initial group will be 'uncategorized' default
         DB::table('groups')->insert([
-            'group_name' => 'uncategorized'
+            'group_name' => 'Uncategorized'
         ]);
-        for ($i=0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             DB::table('groups')->insert([
                 'group_name' => Str::random(10)
             ]);
