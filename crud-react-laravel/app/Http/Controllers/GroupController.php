@@ -50,6 +50,7 @@ class GroupController extends Controller
             array_shift($lines);
             $updated = 0;
             $inserted = 0;
+            $ignored = 0;
             foreach ($lines as $line) {
                 $lineData = str_getcsv($line);
                 $primaryId = $lineData[0];
@@ -68,13 +69,15 @@ class GroupController extends Controller
                             'group_name' => $lineData[1]
                         ]);
                         $inserted++;
+                    } else {
+                        $ignored++;
                     }
                 }
             }
             $affected = $updated + $inserted;
 
             return array(
-                    "feedback" => $affected . " rows affected, " . $inserted . " inserted and " . $updated . " updated."
+                    "feedback" => $affected . " rows affected, " . $inserted . " inserted, " . $updated . " updated, and " . $ignored . " ignored."
                     , "collection" => new GroupCollection(Group::all())
                 );
         } catch (Exception $e) {
