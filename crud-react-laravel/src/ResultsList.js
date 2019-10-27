@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Table } from 'semantic-ui-react'
+import _ from 'lodash'
 
 const API_URL = 'http://127.0.0.1:8000/api'
 
@@ -16,7 +17,11 @@ class ResultsList extends Component {
             groupsUploadFeedback: {
                 message: '',
                 type: ''
-            }
+            },
+            groupColumn: null,
+            groupDirection: null,
+            peopleColumn: null,
+            peopleDirection: null
         };
     }
 
@@ -78,8 +83,55 @@ class ResultsList extends Component {
         }
     }
 
+    handlePeopleSort = (clickedColumn) => () => {
+        const { peopleColumn, peopleData, peopleDirection } = this.state
+
+        if (peopleColumn !== clickedColumn) {
+          this.setState({
+            peopleColumn: clickedColumn,
+            peopleData: _.sortBy(peopleData, [clickedColumn]),
+            peopleDirection: 'ascending',
+          })
+
+          return
+        }
+
+        this.setState({
+          peopleData: peopleData.reverse(),
+          peopleDirection: peopleDirection === 'ascending' ? 'descending' : 'ascending',
+        })
+    }
+
+    handleGroupSort = (clickedColumn) => () => {
+        const { groupColumn, groupData, groupDirection } = this.state
+
+        if (groupColumn !== clickedColumn) {
+          this.setState({
+            groupColumn: clickedColumn,
+            groupData: _.sortBy(groupData, [clickedColumn]),
+            groupDirection: 'ascending',
+          })
+
+          return
+        }
+
+        this.setState({
+          groupData: groupData.reverse(),
+          groupDirection: groupDirection === 'ascending' ? 'descending' : 'ascending',
+        })
+    }
+
     render() {
-        const { peopleUploadFeedback, groupsUploadFeedback, peopleData, groupData } = this.state
+        const {
+            peopleUploadFeedback,
+            groupsUploadFeedback,
+            peopleData,
+            groupData,
+            peopleDirection,
+            peopleColumn,
+            groupDirection,
+            groupColumn
+        } = this.state
         return (
             <div>
                 <div>
@@ -111,13 +163,13 @@ class ResultsList extends Component {
                     </span>
                 </div>
                 {peopleData.length > 0 && (
-                    <Table id="peopleTable" celled padded>
+                    <Table id="peopleTable" celled padded sortable>
                         <Table.Header>
                             <Table.Row>
-                            <Table.HeaderCell singleLine>First Name</Table.HeaderCell>
-                            <Table.HeaderCell>Last Name</Table.HeaderCell>
-                            <Table.HeaderCell>Email</Table.HeaderCell>
-                            <Table.HeaderCell>Status</Table.HeaderCell>
+                            <Table.HeaderCell singleLine sorted={peopleColumn === 'first_name' ? peopleDirection : null} onClick={this.handlePeopleSort('first_name')}>First Name</Table.HeaderCell>
+                            <Table.HeaderCell sorted={peopleColumn === 'last_name' ? peopleDirection : null} onClick={this.handlePeopleSort('last_name')}>Last Name</Table.HeaderCell>
+                            <Table.HeaderCell sorted={peopleColumn === 'email_address' ? peopleDirection : null} onClick={this.handlePeopleSort('email_address')}>Email</Table.HeaderCell>
+                            <Table.HeaderCell sorted={peopleColumn === 'status' ? peopleDirection : null} onClick={this.handlePeopleSort('status')}>Status</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
@@ -140,11 +192,11 @@ class ResultsList extends Component {
                     </Table>
                 )}
                 {groupData.length > 0 && (
-                    <Table id="groupsTable" celled padded>
+                    <Table id="groupsTable" celled padded sortable>
                     <Table.Header>
                         <Table.Row>
-                        <Table.HeaderCell singleLine>Group Name</Table.HeaderCell>
-                        <Table.HeaderCell>Group ID</Table.HeaderCell>
+                            <Table.HeaderCell sorted={groupColumn === 'id' ? groupDirection : null} onClick={this.handleGroupSort('id')}>Group ID</Table.HeaderCell>
+                            <Table.HeaderCell singleLine sorted={groupColumn === 'group_name' ? groupDirection : null} onClick={this.handleGroupSort('group_name')}>Group Name</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
 
@@ -154,8 +206,8 @@ class ResultsList extends Component {
                         groupData.map((group, index) => {
                             return (
                                 <Table.Row key={index}>
-                                    <Table.Cell singleLine>{ group.group_name }</Table.Cell>
                                     <Table.Cell singleLine>{ group.id }</Table.Cell>
+                                    <Table.Cell singleLine>{ group.group_name }</Table.Cell>
                                 </Table.Row>
                             );
                         })
