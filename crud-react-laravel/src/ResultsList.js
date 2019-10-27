@@ -7,7 +7,8 @@ class ResultsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            peopleData: [],
+            groupData: [],
             peopleUploadFeedback: {
                 message: '',
                 type: ''
@@ -19,10 +20,12 @@ class ResultsList extends Component {
         };
     }
 
-    componentDidMount() {
-        fetch("http://localhost:8000/api/people")
-          .then(response => response.json())
-          .then(data => this.setState({ data: data.data }));
+    componentDidMount  = async () => {
+        const peopleResponse = await fetch("http://localhost:8000/api/people")
+        const peopleData = await peopleResponse.json()
+        this.setState({
+            peopleData: peopleData.data
+        })
     }
 
     onPeopleFileSelected = async (event) => {
@@ -36,7 +39,8 @@ class ResultsList extends Component {
         if (uploadPeopleResponse.ok) {
             const responseData = await uploadPeopleResponse.json()
             this.setState({
-                data: responseData.collection.data,
+                peopleData: responseData.collection.data,
+                groupData: [],
                 peopleUploadFeedback: {
                     message: responseData.feedback,
                     type: 'success'
@@ -60,6 +64,8 @@ class ResultsList extends Component {
         if (uploadGroupResponse.ok) {
             const responseData = await uploadGroupResponse.json()
             this.setState({
+                groupData: responseData.collection.data,
+                peopleData: [],
                 groupsUploadFeedback: {
                     message: responseData.feedback,
                     type: 'success'
@@ -73,7 +79,7 @@ class ResultsList extends Component {
     }
 
     render() {
-        const { peopleUploadFeedback, groupsUploadFeedback, data } = this.state
+        const { peopleUploadFeedback, groupsUploadFeedback, peopleData, groupData } = this.state
         return (
             <div>
                 <div>
@@ -104,34 +110,60 @@ class ResultsList extends Component {
                         {groupsUploadFeedback.message}
                     </span>
                 </div>
-                <Table celled padded>
-                <Table.Header>
-                    <Table.Row>
-                    <Table.HeaderCell singleLine>First Name</Table.HeaderCell>
-                    <Table.HeaderCell>Last Name</Table.HeaderCell>
-                    <Table.HeaderCell>Email</Table.HeaderCell>
-                    <Table.HeaderCell>Status</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-
-                {
-                    data.map((person, index) => {
-                        console.log('person is: ', person, ' and index is: ', index)
-                        return (
-                            <Table.Row key={index}>
-                                <Table.Cell singleLine>{ person.first_name }</Table.Cell>
-                                <Table.Cell singleLine>{ person.last_name }</Table.Cell>
-                                <Table.Cell singleLine>{ person.email_address }</Table.Cell>
-                                <Table.Cell singleLine>{ person.status }</Table.Cell>
+                {peopleData.length > 0 && (
+                    <Table id="peopleTable" celled padded>
+                        <Table.Header>
+                            <Table.Row>
+                            <Table.HeaderCell singleLine>First Name</Table.HeaderCell>
+                            <Table.HeaderCell>Last Name</Table.HeaderCell>
+                            <Table.HeaderCell>Email</Table.HeaderCell>
+                            <Table.HeaderCell>Status</Table.HeaderCell>
                             </Table.Row>
-                        );
-                    })
-                }
+                        </Table.Header>
 
-                </Table.Body>
+                        <Table.Body>
+
+                        {
+                            peopleData.map((person, index) => {
+                                return (
+                                    <Table.Row key={index}>
+                                        <Table.Cell singleLine>{ person.first_name }</Table.Cell>
+                                        <Table.Cell singleLine>{ person.last_name }</Table.Cell>
+                                        <Table.Cell singleLine>{ person.email_address }</Table.Cell>
+                                        <Table.Cell singleLine>{ person.status }</Table.Cell>
+                                    </Table.Row>
+                                );
+                            })
+                        }
+
+                        </Table.Body>
+                    </Table>
+                )}
+                {groupData.length > 0 && (
+                    <Table id="groupsTable" celled padded>
+                    <Table.Header>
+                        <Table.Row>
+                        <Table.HeaderCell singleLine>Group Name</Table.HeaderCell>
+                        <Table.HeaderCell>Group ID</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+
+                    {
+                        groupData.map((group, index) => {
+                            return (
+                                <Table.Row key={index}>
+                                    <Table.Cell singleLine>{ group.group_name }</Table.Cell>
+                                    <Table.Cell singleLine>{ group.id }</Table.Cell>
+                                </Table.Row>
+                            );
+                        })
+                    }
+
+                    </Table.Body>
                 </Table>
+                )}
             </div>
     );
 }
