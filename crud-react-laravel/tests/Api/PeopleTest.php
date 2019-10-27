@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\Person;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class PeopleControllerTest extends TestCase
 {
@@ -19,11 +21,12 @@ class PeopleControllerTest extends TestCase
             'email_address' => 'sallyride@nasa.gov',
             'status' => 'archived'
         ];
-        $response = $this->json('POST', '/api/people', $expected);
+        $response = $this->postJson('/api/people', [
+            'file' => new UploadedFile(resource_path('../tests/sallyRide.csv'), 'sallyRide.csv', null, null, null, true),
+        ]);
         $response
             ->assertStatus(201)
             ->assertJsonFragment($expected);
-
     }
 
     public function testPersonRetrieved()

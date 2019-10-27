@@ -46,6 +46,7 @@ class PeopleController extends Controller
             $fileData = file_get_contents($content);
             // PHP_EOL may not actually be usable due to operating system differences
             $lines = explode(PHP_EOL, $fileData);
+            // remove first line (header)
             array_shift($lines);
             $updated = 0;
             $inserted = 0;
@@ -73,11 +74,14 @@ class PeopleController extends Controller
                 }
             }
             $affected = $updated + $inserted;
-
-            return array(
+            $statusCode = 200;
+            if ($inserted > 0) {
+                $statusCode = 201;
+            }
+            return response(array(
                     "feedback" => $affected . " rows affected, " . $inserted . " inserted and " . $updated . " updated."
                     , "collection" => new PeopleCollection(Person::all())
-                );
+                ), $statusCode);
         } catch (Exception $e) {
             return response()->json(null, 422);
         }
