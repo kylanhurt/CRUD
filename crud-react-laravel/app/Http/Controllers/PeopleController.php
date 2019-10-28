@@ -17,7 +17,8 @@ class PeopleController extends Controller
      */
     public function index()
     {
-        return new PeopleCollection(Person::all());
+        $activePeople = Person::where('status','active')->get();
+        return new PeopleCollection($activePeople);
     }
 
     /**
@@ -80,7 +81,7 @@ class PeopleController extends Controller
             }
             return response(array(
                     "feedback" => $affected . " rows affected, " . $inserted . " inserted and " . $updated . " updated."
-                    , "collection" => new PeopleCollection(Person::all())
+                    , "collection" => new PeopleCollection(Person::where('status','active')->get())
                 ), $statusCode);
         } catch (Exception $e) {
             return response()->json(null, 422);
