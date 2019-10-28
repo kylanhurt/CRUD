@@ -19,7 +19,7 @@ class PeopleControllerTest extends TestCase
             'first_name' => 'Sally',
             'last_name' => 'Ride',
             'email_address' => 'sallyride@nasa.gov',
-            'status' => 'archived'
+            'status' => 'active'
         ];
         $response = $this->postJson('/api/people', [
             'file' => new UploadedFile(resource_path('../tests/sallyRide.csv'), 'sallyRide.csv', null, null, null, true),
