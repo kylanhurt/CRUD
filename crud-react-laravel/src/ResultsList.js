@@ -162,8 +162,7 @@ class ResultsList extends Component {
                         {groupsUploadFeedback.message}
                     </span>
                 </div>
-                {peopleData.length > 0 && (
-                    <Table id="peopleTable" celled padded sortable>
+                    <Table id="peopleTable" celled padded sortable style={{ marginBottom: 60 }}>
                         <Table.Header>
                             <Table.Row>
                             <Table.HeaderCell singleLine sorted={peopleColumn === 'first_name' ? peopleDirection : null} onClick={this.handlePeopleSort('first_name')}>First Name</Table.HeaderCell>
@@ -190,8 +189,6 @@ class ResultsList extends Component {
 
                         </Table.Body>
                     </Table>
-                )}
-                {groupData.length > 0 && (
                     <Table id="groupsTable" celled padded sortable>
                     <Table.Header>
                         <Table.Row>
@@ -215,7 +212,6 @@ class ResultsList extends Component {
 
                     </Table.Body>
                 </Table>
-                )}
             </div>
     );
 }
