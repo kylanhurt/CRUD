@@ -45,7 +45,6 @@ class ResultsList extends Component {
             const responseData = await uploadPeopleResponse.json()
             this.setState({
                 peopleData: responseData.collection.data,
-                groupData: [],
                 peopleUploadFeedback: {
                     message: responseData.feedback,
                     type: 'success'
@@ -70,7 +69,6 @@ class ResultsList extends Component {
             const responseData = await uploadGroupResponse.json()
             this.setState({
                 groupData: responseData.collection.data,
-                peopleData: [],
                 groupsUploadFeedback: {
                     message: responseData.feedback,
                     type: 'success'
