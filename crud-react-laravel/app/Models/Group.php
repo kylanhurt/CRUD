@@ -8,7 +8,7 @@ class Group extends Model
 {
     protected $table = 'groups';
 
-    public function people()
+    public function peoples()
     {
         return $this->hasMany(People::class);
     }
