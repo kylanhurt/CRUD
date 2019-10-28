@@ -1,6 +1,12 @@
 Hello, Kylan!
 
+## Some Notes
 
+* Laravel API tests and Jest / Enzyme snapshots appear to be working. If you have issues getting them to work then that may be a devOps issue (ie Babel, Yarn, etc)
+* I adjusted the API tests for Laravel (People endpoints) to better fit a Form Data file upload
+* I added an API test for the Group API upload endpoint
+* I did not get around including the group_name for the people in the table, nor getting a count of members of each group for the group table. All that's needed to do this is to add some joins between the tables
+* The CSV upload feature has very minimal error-handling in its current state. I added some simple feedback about how many new rows vs updated rows occurred (as well as how many ignored rows)
 
 We’re super excited to see what you come up with!
 
