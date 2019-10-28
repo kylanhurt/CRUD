@@ -64,7 +64,7 @@ class GroupController extends Controller
                 } else { // new data = insert
                     $existingGroup = Group::find(['group_name' => $lineData[1]]);
                     // only enter if unique name
-                    if ($existingGroup === null) {
+                    if ($existingGroup === null || count($existingGroup) === 0) {
                         Group::insert([
                             'group_name' => $lineData[1]
                         ]);
@@ -75,11 +75,14 @@ class GroupController extends Controller
                 }
             }
             $affected = $updated + $inserted;
-
-            return array(
+            $statusCode = 200;
+            if ($inserted > 0) {
+                $statusCode = 201;
+            }
+            return response(array(
                     "feedback" => $affected . " rows affected, " . $inserted . " inserted, " . $updated . " updated, and " . $ignored . " ignored."
                     , "collection" => new GroupCollection(Group::all())
-                );
+                ), $statusCode);
         } catch (Exception $e) {
             return response()->json(null, 422);
         }
