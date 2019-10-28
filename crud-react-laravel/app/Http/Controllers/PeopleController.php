@@ -52,6 +52,7 @@ class PeopleController extends Controller
             $updated = 0;
             $inserted = 0;
             foreach ($lines as $line) {
+                if ($line === '') continue;
                 $lineData = str_getcsv($line);
                 $primaryId = $lineData[0];
                 if (is_numeric($primaryId)) { // update since id present (existing record)
