@@ -1,8 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import ResultsList from './ResultsList';
+import Adapter from 'enzyme-adapter-react-16'
+import "core-js/stable"
+import "regenerator-runtime/runtime"
 
 let wrapper, data;
+configure({adapter: new Adapter()});
 
 describe('<ResultsList />', () => {
 
@@ -18,7 +22,7 @@ describe('<ResultsList />', () => {
             "created_at": "2019-07-20 22:05:47"
         }]
 
-        wrapper.setState({ 'data' : data });
+        wrapper.setState({ 'peopleData' : data });
     });
 
     test('should match the snapshot', () => {
