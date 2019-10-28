@@ -56,12 +56,27 @@ class GroupController extends Controller
                 $lineData = str_getcsv($line, ",");
                 $primaryId = $lineData[0];
                 if (is_numeric($primaryId)) { // update since id present (existing record)
-                    DB::table('groups')
+                    $existingPrimaryId = Group::find($primaryId);
+                    if($existingPrimaryId !== null) {
+                        DB::table('groups')
                         ->where('id', $primaryId)
                         ->update([
                             'group_name' => $lineData[1]
                         ]);
-                    $updated++;
+                        $updated++;
+                    } else {
+                        $existingGroup = Group::find(['group_name' => $lineData[1]]);
+                        // only enter if unique name
+                        if ($existingGroup === null || count($existingGroup) === 0) {
+                            Group::insert([
+                                'group_name' => $lineData[1]
+                            ]);
+                            $inserted++;
+                        } else {
+                            $ignored++;
+                        }
+                    }
+
                 } else { // new data = insert
                     $existingGroup = Group::find(['group_name' => $lineData[1]]);
                     // only enter if unique name

@@ -56,7 +56,8 @@ class PeopleController extends Controller
                 $lineData = str_getcsv($line, ",");
                 $primaryId = $lineData[0];
                 if (is_numeric($primaryId)) { // update since id present (existing record)
-                    DB::table('people')
+                    if (People::find($primaryId) !== null) {
+                        DB::table('people')
                         ->where('id', $primaryId)
                         ->update([
                             'first_name' => $lineData[1],
@@ -64,7 +65,16 @@ class PeopleController extends Controller
                             'email_address' => $lineData[3],
                             'status' => $lineData[4]
                         ]);
-                    $updated++;
+                        $updated++;
+                    } else {
+                        Person::insert([
+                            'first_name' => $lineData[1],
+                            'last_name' => $lineData[2],
+                            'email_address' => $lineData[3],
+                            'status' => $lineData[4]
+                        ]);
+                        $inserted++;
+                    }
                 } else { // new data = insert
                     Person::insert([
                         'first_name' => $lineData[1],
