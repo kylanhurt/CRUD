@@ -1,15 +1,27 @@
+Hello, Kylan!
+
+## Some Notes
+
+* Laravel API tests and Jest / Enzyme snapshots appear to be working. If you have issues getting them to work then that may be a devOps issue (ie Babel, Yarn, etc)
+* I adjusted the API tests for Laravel (People endpoints) to better fit a Form Data file upload
+* I added an API test for the Group API upload endpoint
+* I did not get around including the group_name for the people in the table, nor getting a count of members of each group for the group table. All that's needed to do this is to add some joins between the tables
+* The CSV upload feature has very minimal error-handling in its current state. I added some simple feedback about how many new rows vs updated rows occurred (as well as how many ignored rows)
+* In a perfect world there would also be static type-checking (especially for the front-end) but that didn't seem to be the focus of this dev test
+*
+
 We’re super excited to see what you come up with!
 
 We expect it to take a few hours. We would ask that you make commits to a git repository every so often so that we can see how long it took. Here is what you need to do
 
-
-2. Complete the requirements below
+1. Clone this repository locally and update the first line of this README with your name (so that it reads "Hello, YOUR NAME!"). Commit this change. This will serve as a starting timestamp
+2. Complete the exercise below
 3. Commit progress regularly
 4. When you're done, upload your code to a personal GitHub account and email us the link.
 
-## The TASK
+## The Exercise
 
-Many of the churches we work with import their data from an existing system or a homegrown spreadsheet. We provide tools for bulk importing of people, contribution, group and attendance records.
+This is a simplified version of a piece of functionality we have in. Many of the churches we work with import their data from an existing system or a homegrown spreadsheet into . We provide tools for bulk importing of people, contribution, group and attendance records.
 In this problem we're only going to consider two data types: People and Groups. A Person can be part of one Group.
 
 For the People data type, each person can have a state of either 'active' or ‘archived’. The `id` for each data type is globally unique. As a result, if the id does not exist, create a new record, otherwise, update the existing record.
@@ -49,7 +61,7 @@ id, group_name
 * MySql 5.x installed locally, accessible via 127.0.0.1
 
 - Clone the repository
-  - `git clone && cd into crud-react-laravel`
+  - `git clone this repository && cd crud`
 - Setup Laravel
   - `cp .env.example .env`
   - Edit .env with your mysql connection information: the following steps connect to local mysql database using root credentials
@@ -73,5 +85,3 @@ You will need to determine the type of data in the CSV file based on the headers
 ### Testing
 
 We love TDD! So we’d love to see tests for the API and ReactJS application. Write automated tests to verify your results and account for gotchas (handling different column orders, invalid id's in the People CSV file, etc..). Classify your tests as either unit, integration, ui, or acceptance, but it is not required to use every type.
-
-
