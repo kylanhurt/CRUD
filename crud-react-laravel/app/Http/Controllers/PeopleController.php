@@ -56,7 +56,7 @@ class PeopleController extends Controller
                 $lineData = str_getcsv($line, ",");
                 $primaryId = $lineData[0];
                 if (is_numeric($primaryId)) { // update since id present (existing record)
-                    if (People::find($primaryId) !== null) {
+                    if (Person::find($primaryId) !== null) {
                         DB::table('people')
                         ->where('id', $primaryId)
                         ->update([
