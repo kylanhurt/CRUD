@@ -53,7 +53,7 @@ class ResultsList extends Component {
             })
         } else {
             this.setState({
-                peopleUploadFeedback: 'Something'
+                peopleUploadFeedback: 'Some error'
             })
         }
     }
@@ -78,7 +78,7 @@ class ResultsList extends Component {
             })
         } else {
             this.setState({
-                groupsUploadFeedback: 'Something'
+                groupsUploadFeedback: 'Some error'
             })
         }
     }
